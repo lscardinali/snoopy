@@ -106,7 +106,7 @@ class DefaultSourcesLoader @Inject constructor(
                 ConsoleEntity(
                     id = c.id, name = c.name, manufacturerId = m.id, urls = SourcesJson.serializeUrlEntries(urls),
                     shortName = c.shortName.orEmpty(), folderAliases = ConsoleAliasRegistry.serializeAliases(c.folderAliases),
-                    color = c.color.orEmpty()
+                    color = c.color.orEmpty(), unpack = c.unpack.stored
                 )
             }
         }

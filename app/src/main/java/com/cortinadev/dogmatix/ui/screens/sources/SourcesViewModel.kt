@@ -210,8 +210,11 @@ class SourcesViewModel @Inject constructor(
         viewModelScope.launch { sources.addConsole(sources.addManufacturer(manufacturerName), consoleName, shortName, aliases, color, key) }
     }
 
-    fun updateConsole(consoleId: String, name: String, shortName: String, aliases: List<String>, color: String) {
-        viewModelScope.launch { sources.updateConsole(consoleId, name, shortName, aliases, color) }
+    fun updateConsole(
+        consoleId: String, name: String, shortName: String, aliases: List<String>, color: String,
+        unpack: com.cortinadev.dogmatix.data.model.UnpackMode = com.cortinadev.dogmatix.data.model.UnpackMode.DEFAULT
+    ) {
+        viewModelScope.launch { sources.updateConsole(consoleId, name, shortName, aliases, color, unpack) }
     }
 
     fun deleteConsole(consoleId: String) {

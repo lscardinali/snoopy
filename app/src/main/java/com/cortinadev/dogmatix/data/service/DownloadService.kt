@@ -4,12 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.documentfile.provider.DocumentFile
+import com.cortinadev.dogmatix.data.local.dao.ConsoleDao
 import com.cortinadev.dogmatix.data.local.dao.DownloadHistoryDao
 import com.cortinadev.dogmatix.data.local.entity.DownloadHistoryEntity
 import com.cortinadev.dogmatix.data.local.entity.DownloadableFileEntity
 import com.cortinadev.dogmatix.data.model.DebridProvider
 import com.cortinadev.dogmatix.data.model.DownloadItemModel
 import com.cortinadev.dogmatix.data.model.DownloadStatus
+import com.cortinadev.dogmatix.data.model.UnpackMode
 import com.cortinadev.dogmatix.data.repository.SettingsRepository
 import com.cortinadev.dogmatix.util.ArchiveUtils
 import com.cortinadev.dogmatix.util.ArchiveExtractionException
@@ -65,6 +67,7 @@ class DownloadService @Inject constructor(
     @param:ApplicationContext private val context: Context,
     private val settingsRepository: SettingsRepository,
     private val archiveExtractorService: ArchiveExtractorService,
+    private val consoleDao: ConsoleDao,
     private val downloadSpeedController: DownloadSpeedController,
     private val downloadHttpClient: DownloadHttpClient,
     private val downloadProgressTracker: DownloadProgressTracker,
@@ -628,7 +631,7 @@ class DownloadService @Inject constructor(
 
             val subPath = downloadFileManager.getSubPath(file)
 
-            if (ArchiveUtils.isExtractable(fileExtension) && settingsRepository.autoUnzip.first()) {
+            if (ArchiveUtils.isExtractable(fileExtension) && shouldUnpack(file)) {
                 // Extract directly from cache — skips writing the compressed archive to SAF entirely.
                 // Flow: cacheDir/torrent_data/ → extraction_temp/ → SAF destination
                 Log.d(TAG, "Extracting torrent archive directly from cache: ${internalFile.name}")
@@ -1050,7 +1053,7 @@ class DownloadService @Inject constructor(
         documentFile: DocumentFile,
         subPath: String
     ) {
-        if (!ArchiveUtils.isExtractable(file.fileExtension) || !settingsRepository.autoUnzip.first()) {
+        if (!ArchiveUtils.isExtractable(file.fileExtension) || !shouldUnpack(file)) {
             resumeStore.finished(file.fileName)
             updateStatus(file.fileName, DownloadStatus.COMPLETED)
             _finished.tryEmit(file.fileName)
@@ -1070,6 +1073,16 @@ class DownloadService @Inject constructor(
         updateStatus(file.fileName, DownloadStatus.COMPLETED)
         _finished.tryEmit(file.fileName)
         checkServiceLifecycle()
+    }
+
+    /**
+     * Whether an archive downloaded for [file] is unpacked: its console's "Unpack archives" choice,
+     * which by default follows "Auto-unzip files".
+     */
+    private suspend fun shouldUnpack(file: DownloadableFileEntity): Boolean {
+        val autoUnzip = settingsRepository.autoUnzip.first()
+        val console = runCatching { consoleDao.getConsoleById(file.consoleId) }.getOrNull()
+        return UnpackMode.parse(console?.unpack).shouldUnpack(autoUnzip)
     }
 
     private suspend fun updateStatus(fileName: String, status: DownloadStatus) =

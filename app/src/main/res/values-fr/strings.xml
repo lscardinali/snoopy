@@ -413,6 +413,14 @@
     <string name="dialog_url_label">URL / Magnet</string>
     <string name="dialog_url_placeholder">https://…, magnet:? ou romm://psp</string>
     <string name="dialog_upload_torrent">Charger un .torrent</string>
+    <string name="sources_count_hint">Sources : %1$d</string>
+    <string name="sources_unpack_never_badge">Les .zip restent tels quels</string>
+    <string name="sources_unpack_always_badge">Archives toujours décompressées</string>
+    <string name="dialog_unpack_archives">Décompresser les archives :</string>
+    <string name="dialog_unpack_archives_hint">Jamais garde les .zip de cette console tels quels (Neo Geo, arcade et autres sets lus en .zip) ; Par défaut suit « Décompression automatique »</string>
+    <string name="unpack_mode_default">Par défaut</string>
+    <string name="unpack_mode_always">Toujours</string>
+    <string name="unpack_mode_never">Jamais</string>
     <string name="dialog_content_type">Type de contenu :</string>
     <string name="dialog_add">Ajouter</string>
     <string name="dialog_cancel">Annuler</string>

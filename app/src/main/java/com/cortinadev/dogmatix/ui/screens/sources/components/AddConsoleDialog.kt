@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.cortinadev.dogmatix.R
 import com.cortinadev.dogmatix.data.model.Console
 import com.cortinadev.dogmatix.data.model.Manufacturer
+import com.cortinadev.dogmatix.data.model.UnpackMode
 import com.cortinadev.dogmatix.ui.components.ColorPickerDialog
 import com.cortinadev.dogmatix.ui.components.DialogButton
 import com.cortinadev.dogmatix.ui.components.WideDialogProperties
@@ -41,7 +42,10 @@ import com.cortinadev.dogmatix.util.SourcesJson
  * (`#RRGGBB`, empty = default) and, when a predefined console was picked, the console part of
  * its id ([KnownConsoles.KnownConsole.key]; empty = derive it from the name).
  */
-data class ConsoleFormValues(val name: String, val shortName: String, val aliases: List<String>, val color: String = "", val key: String = "")
+data class ConsoleFormValues(
+    val name: String, val shortName: String, val aliases: List<String>, val color: String = "", val key: String = "",
+    val unpack: UnpackMode = UnpackMode.DEFAULT
+)
 
 /**
  * Adds or edits a console. When adding, the manufacturer comes first (the existing ones, then
@@ -64,6 +68,7 @@ fun AddConsoleDialog(
     var shortName by remember { mutableStateOf(existing?.shortName.orEmpty()) }
     var aliases by remember { mutableStateOf(existing?.folderAliases.orEmpty().joinToString(", ")) }
     var color by remember { mutableStateOf(existing?.color.orEmpty()) }
+    var unpack by remember { mutableStateOf(existing?.unpack ?: UnpackMode.DEFAULT) }
     var pickedKey by remember { mutableStateOf("") }
     var pickingColor by remember { mutableStateOf(false) }
     val adding = existing == null
@@ -97,7 +102,7 @@ fun AddConsoleDialog(
     }
 
     fun submit() {
-        val values = ConsoleFormValues(name.trim(), shortName.trim(), ConsoleAliasRegistry.parseAliases(aliases), color, pickedKey)
+        val values = ConsoleFormValues(name.trim(), shortName.trim(), ConsoleAliasRegistry.parseAliases(aliases), color, pickedKey, unpack)
         if (values.name.isEmpty() || !manufacturerOk) return
         when {
             !adding -> onConfirm(values)
@@ -223,6 +228,39 @@ fun AddConsoleDialog(
                         )
                     }
                     DialogButton(text = stringResource(R.string.settings_change), onClick = { pickingColor = true })
+                }
+                // Editing only: a new console follows "Auto-unzip files" until edited.
+                if (!adding) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(stringResource(R.string.dialog_unpack_archives), style = MaterialTheme.typography.titleSmall)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    FlowRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        UnpackMode.entries.forEach { mode ->
+                            val source = rememberFocusSource()
+                            val label = when (mode) {
+                                UnpackMode.DEFAULT -> R.string.unpack_mode_default
+                                UnpackMode.ALWAYS -> R.string.unpack_mode_always
+                                UnpackMode.NEVER -> R.string.unpack_mode_never
+                            }
+                            FilterChip(
+                                selected = unpack == mode,
+                                onClick = { unpack = mode },
+                                label = { Text(stringResource(label), maxLines = 1) },
+                                interactionSource = source,
+                                modifier = Modifier.focusRing(source, 8.dp)
+                            )
+                        }
+                    }
+                    Text(
+                        stringResource(R.string.dialog_unpack_archives_hint),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
                 }
             }
         },

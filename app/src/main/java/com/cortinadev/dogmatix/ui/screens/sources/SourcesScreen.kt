@@ -319,7 +319,7 @@ fun SourcesScreen(
         is SourcesDialog.EditConsole -> AddConsoleDialog(
             existing = d.console,
             onDismiss = { viewModel.dismissDialog() },
-            onConfirm = { values -> viewModel.updateConsole(d.console.id, values.name, values.shortName, values.aliases, values.color) }
+            onConfirm = { values -> viewModel.updateConsole(d.console.id, values.name, values.shortName, values.aliases, values.color, values.unpack) }
         )
         is SourcesDialog.AddUrl -> AddUrlDialog(
             rommPlatforms = rommPlatforms,

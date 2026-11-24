@@ -19,5 +19,7 @@ data class ConsoleEntity(
     /** Comma-separated folder names that count as this console's download folder; empty = built-in defaults. */
     @ColumnInfo(defaultValue = "") val folderAliases: String = "",
     /** Chip / cover-placeholder colour as `#RRGGBB`; empty = the default of its family (ConsoleFamily). */
-    @ColumnInfo(defaultValue = "") val color: String = ""
+    @ColumnInfo(defaultValue = "") val color: String = "",
+    /** `ALWAYS` / `NEVER` to override "Auto-unzip files" for this console; empty = follow it (UnpackMode). */
+    @ColumnInfo(defaultValue = "") val unpack: String = ""
 )

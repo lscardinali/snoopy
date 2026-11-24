@@ -12,6 +12,7 @@ import com.cortinadev.dogmatix.data.model.Console
 import com.cortinadev.dogmatix.data.model.ContentType
 import com.cortinadev.dogmatix.data.model.Manufacturer
 import com.cortinadev.dogmatix.data.model.ScrapeRecipe
+import com.cortinadev.dogmatix.data.model.UnpackMode
 import com.cortinadev.dogmatix.data.model.UrlEntry
 import com.cortinadev.dogmatix.data.service.DatabaseScrapingService
 import com.cortinadev.dogmatix.data.service.IaAuth
@@ -126,13 +127,17 @@ class SourcesRepository @Inject constructor(
     }
 
     /** Updates the display name, chip label, folder aliases and colour (empty values mean "use the built-in default"). */
-    suspend fun updateConsole(consoleId: String, name: String, shortName: String, folderAliases: List<String>, color: String) {
+    suspend fun updateConsole(
+        consoleId: String, name: String, shortName: String, folderAliases: List<String>, color: String,
+        unpack: UnpackMode = UnpackMode.DEFAULT
+    ) {
         val c = consoleDao.getConsoleById(consoleId) ?: return
         consoleDao.updateConsole(c.copy(
             name = name.trim(),
             shortName = shortName.trim(),
             folderAliases = ConsoleAliasRegistry.serializeAliases(folderAliases),
-            color = normalizeColor(color)
+            color = normalizeColor(color),
+            unpack = unpack.stored
         ))
     }
 
@@ -239,7 +244,8 @@ class SourcesRepository @Inject constructor(
                         folderAliases = c.folderAliases.ifEmpty { ConsoleFolderAliases.defaultAliasesFor(c.id) },
                         // Only a picked colour: the family default follows the app, not the file.
                         color = c.color.ifBlank { null },
-                        favourites = starred[c.id].orEmpty().sorted()
+                        favourites = starred[c.id].orEmpty().sorted(),
+                        unpack = c.unpack
                     )
                 }
             )
@@ -378,7 +384,7 @@ class SourcesRepository @Inject constructor(
                 ConsoleEntity(
                     id = c.id, name = c.name, manufacturerId = m.id, urls = SourcesJson.serializeUrlEntries(urls),
                     shortName = c.shortName.orEmpty(), folderAliases = ConsoleAliasRegistry.serializeAliases(c.folderAliases),
-                    color = c.color.orEmpty()
+                    color = c.color.orEmpty(), unpack = c.unpack.stored
                 )
             }
         }
@@ -397,7 +403,8 @@ class SourcesRepository @Inject constructor(
             consoles = m.consoles.map { c ->
                 SourceConsole(
                     id = c.id, name = c.name, urls = c.urls,
-                    shortName = c.shortName.ifBlank { null }, folderAliases = c.folderAliases, color = c.color.ifBlank { null }
+                    shortName = c.shortName.ifBlank { null }, folderAliases = c.folderAliases, color = c.color.ifBlank { null },
+                    unpack = c.unpack
                 )
             }
         )
@@ -407,7 +414,8 @@ class SourcesRepository @Inject constructor(
 
     private fun ConsoleEntity.toModel() = Console(
         id = id, name = name, urls = SourcesJson.parseUrlEntries(urls),
-        shortName = shortName, folderAliases = ConsoleAliasRegistry.parseAliases(folderAliases), color = color
+        shortName = shortName, folderAliases = ConsoleAliasRegistry.parseAliases(folderAliases), color = color,
+        unpack = UnpackMode.parse(unpack)
     )
 
     /** `#RRGGBB`, or empty for anything that is not a colour (= family default). */

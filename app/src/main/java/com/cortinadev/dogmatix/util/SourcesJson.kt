@@ -7,6 +7,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.cortinadev.dogmatix.data.model.ContentType
 import com.cortinadev.dogmatix.data.model.ScrapeRecipe
+import com.cortinadev.dogmatix.data.model.UnpackMode
 import com.cortinadev.dogmatix.data.model.UrlEntry
 
 /** A manufacturer as read from (or written to) a sources JSON document. */
@@ -28,7 +29,9 @@ data class SourceConsole(
     /** Chip colour as `#RRGGBB`; null when the document does not set one (the family default applies). */
     val color: String? = null,
     /** File names of the console's starred games (the `favourites` table key, with [id]). */
-    val favourites: List<String> = emptyList()
+    val favourites: List<String> = emptyList(),
+    /** Override of "Auto-unzip files" for the console. */
+    val unpack: UnpackMode = UnpackMode.DEFAULT
 )
 
 /**
@@ -47,7 +50,8 @@ data class SourceConsole(
  * "pages": "1-50", "ext": "zip"}` (`item` always, the other fields only when set; see [ScrapeRecipe]).
  * `short` is the chip label in the library / downloads; `aliases` are the folder names the
  * download-path resolver accepts for the console (besides its own name and `short`); `color`
- * (optional) is the console's chip colour, written only when the user picked one;
+ * (optional) is the console's chip colour, written only when the user picked one; `unpack`
+ * (optional, `"ALWAYS"` or `"NEVER"`) overrides "Auto-unzip files" for the console;
  * `favourites` (optional, only in exports) lists the file names of the starred games, so the
  * stars travel with the sources: the console is the one the document nests them in. `id`
  * (optional, only in exports) keeps a Room id that the key would not give back
@@ -76,7 +80,8 @@ object SourcesJson {
                         shortName = consoleObj.stringOrNull("short")?.trim(),
                         folderAliases = parseStrings(consoleObj.get("aliases")),
                         color = consoleObj.stringOrNull("color")?.let(ColorMath::parseHex)?.let(ColorMath::toHex),
-                        favourites = parseStrings(consoleObj.get("favourites"))
+                        favourites = parseStrings(consoleObj.get("favourites")),
+                        unpack = UnpackMode.parse(consoleObj.stringOrNull("unpack"))
                     )
                 }
             SourceManufacturer(manufacturerId, manufacturerName, consoles)
@@ -102,6 +107,7 @@ object SourcesJson {
                 console.color?.let(ColorMath::parseHex)?.let { consoleObj.addProperty("color", ColorMath.toHex(it)) }
                 consoleObj.add("urls", urlEntriesToJson(console.urls))
                 if (console.favourites.isNotEmpty()) consoleObj.add("favourites", stringsToJson(console.favourites))
+                if (console.unpack != UnpackMode.DEFAULT) consoleObj.addProperty("unpack", console.unpack.name)
                 manufacturerObj.add(key, consoleObj)
             }
             root.add(manufacturer.id, manufacturerObj)

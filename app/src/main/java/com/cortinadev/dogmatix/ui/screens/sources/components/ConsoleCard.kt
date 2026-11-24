@@ -1,6 +1,7 @@
 package com.cortinadev.dogmatix.ui.screens.sources.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
@@ -91,7 +92,8 @@ fun ConsoleCard(
                         .clip(CircleShape)
                         .background(tagPalette().consoleColor(console.id))
                 )
-                Column(modifier = Modifier.weight(1f)) {
+                // Tapping the name shows / hides the console's sources, like the arrow.
+                Column(modifier = Modifier.weight(1f).clickable { expanded = !expanded }) {
                     Text(
                         text = console.name,
                         style = MaterialTheme.typography.titleMedium,
@@ -102,6 +104,21 @@ fun ConsoleCard(
                             text = "$subtitle · ${com.cortinadev.dogmatix.util.ConsoleFormatter.getConsoleShortName(console.id)}",
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    val summary = listOfNotNull(
+                        if (expanded) null else stringResource(R.string.sources_count_hint, console.urls.size),
+                        when (console.unpack) {
+                            com.cortinadev.dogmatix.data.model.UnpackMode.NEVER -> stringResource(R.string.sources_unpack_never_badge)
+                            com.cortinadev.dogmatix.data.model.UnpackMode.ALWAYS -> stringResource(R.string.sources_unpack_always_badge)
+                            com.cortinadev.dogmatix.data.model.UnpackMode.DEFAULT -> null
+                        }
+                    )
+                    if (summary.isNotEmpty()) {
+                        Text(
+                            text = summary.joinToString(" · "),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
@@ -216,8 +233,9 @@ private fun UrlItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // The whole text side opens the editor, not only the pencil.
             Column(
-                modifier = Modifier.weight(1f).alpha(contentAlpha)
+                modifier = Modifier.weight(1f).clickable(onClick = onEdit).alpha(contentAlpha)
             ) {
                 val displayText = if (urlEntry.url.length > 200) {
                     urlEntry.url.take(197) + "..."
