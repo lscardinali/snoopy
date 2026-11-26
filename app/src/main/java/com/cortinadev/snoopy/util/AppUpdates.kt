@@ -4,11 +4,11 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 
-/** The latest published Dogmatix release, with the APK that installs it. */
+/** The latest published Snoopy release, with the APK that installs it. */
 data class AppRelease(
     /** The tag without its `v`: "1.4". */
     val version: String,
-    /** The release title: "Dogmatix 1.4". */
+    /** The release title: "Snoopy 1.5.1.3". */
     val name: String,
     /** First line of the release notes, plain text. */
     val summary: String,
@@ -26,7 +26,7 @@ data class AppRelease(
  * form, so Settings knows about it between checks. Pure, so it is unit-tested.
  */
 object AppUpdates {
-    const val LATEST_URL = "https://api.github.com/repos/cortinadev/dogmatix/releases/latest"
+    const val LATEST_URL = "https://api.github.com/repos/lscardinali/snoopy/releases/latest"
 
     /** Automatic checks at most this often: GitHub allows 60 unauthenticated calls an hour per address. */
     const val CHECK_INTERVAL_MS = 6 * 60 * 60 * 1000L
@@ -49,7 +49,7 @@ object AppUpdates {
         val apk = pickApk(assets) ?: return null
         AppRelease(
             version = version,
-            name = root.string("name")?.takeIf { it.isNotBlank() } ?: "Dogmatix $version",
+            name = root.string("name")?.takeIf { it.isNotBlank() } ?: "Snoopy $version",
             summary = summaryOf(root.string("body").orEmpty()),
             apkUrl = apk.url,
             apkName = apk.name,
@@ -63,7 +63,9 @@ object AppUpdates {
     /** The APK to install: never a debug build; one named after the app first. */
     fun pickApk(assets: List<Asset>): Asset? {
         val apks = assets.filter { it.name.endsWith(".apk", ignoreCase = true) && !it.name.contains("debug", ignoreCase = true) }
-        return apks.firstOrNull { it.name.contains("dogmatix", ignoreCase = true) } ?: apks.firstOrNull()
+        return apks.firstOrNull { it.name.contains("snoopy", ignoreCase = true) }
+            ?: apks.firstOrNull { it.name.contains("dogmatix", ignoreCase = true) }
+            ?: apks.firstOrNull()
     }
 
     /** `v1.4` → `1.4`, `1.3-debug` → `1.3`; null when there is no version number in it. */

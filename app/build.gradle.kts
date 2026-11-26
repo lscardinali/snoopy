@@ -25,6 +25,12 @@ android {
         targetSdk = 36
         versionCode = 16
         versionName = "1.5.1"
+        // Snoopy: the release workflow sets SNOOPY_BUILD (its run number), so every automated
+        // release is newer than the last one (versionName 1.5.1.<build>, versionCode <base>*1000+<build>).
+        // Local builds are build 0.
+        val snoopyBuild = providers.environmentVariable("SNOOPY_BUILD").orNull?.toIntOrNull() ?: 0
+        versionCode = versionCode!! * 1000 + snoopyBuild
+        versionNameSuffix = ".$snoopyBuild"
 
         // Runs every instrumented test in a sandboxed Hilt test application (see app/src/androidTest/.../testing).
         testInstrumentationRunner = "com.cortinadev.snoopy.testing.DogmatixTestRunner"
