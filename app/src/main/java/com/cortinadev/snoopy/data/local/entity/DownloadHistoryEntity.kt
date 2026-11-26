@@ -1,0 +1,92 @@
+package com.cortinadev.snoopy.data.local.entity
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.cortinadev.snoopy.data.model.DownloadItemModel
+import com.cortinadev.snoopy.data.model.DownloadStatus
+import com.cortinadev.snoopy.util.DownloadRestore
+
+/**
+ * One row per entry of the Downloads list, so the list survives app restarts.
+ * Keeps enough of the indexed file to rebuild a [DownloadableFileEntity] for retries,
+ * even if the file has since been re-indexed or removed from the library.
+ */
+@Entity(tableName = "download_history")
+data class DownloadHistoryEntity(
+    @PrimaryKey val fileName: String,
+    val name: String,
+    val consoleId: String,
+    val downloadUrl: String,
+    val fileSize: Long,
+    val fileExtension: String,
+    val torrentFileIndex: Int?,
+    val torrentMagnet: String?,
+    val status: String,
+    /** Epoch millis when the download was (last) started. */
+    val startedAt: Long,
+    /** Epoch millis when it reached COMPLETED / FAILED / STOPPED; null while in progress. */
+    val finishedAt: Long?,
+    /** Debrid service + its torrent/file ids while a debrid download is in flight, so a retry can resume it. */
+    @ColumnInfo(defaultValue = "NULL") val debridProvider: String? = null,
+    @ColumnInfo(defaultValue = "NULL") val debridTorrentId: String? = null,
+    @ColumnInfo(defaultValue = "NULL") val debridFileId: Int? = null,
+    /** Why the last attempt failed, a [com.cortinadev.snoopy.util.DownloadFailure] name; null otherwise. */
+    @ColumnInfo(defaultValue = "NULL") val failureReason: String? = null,
+    // dl-cola
+    /** Place in the download queue (smaller starts first, see [com.cortinadev.snoopy.util.DownloadQueue]). */
+    @ColumnInfo(defaultValue = "0") val queueOrder: Long = 0L,
+    /** Held in the queue: waits without starting until let go. */
+    @ColumnInfo(defaultValue = "0") val queueHeld: Boolean = false,
+    /** Epoch millis of the pending automatic retry (see DownloadAutoRetry); null = none. */
+    @ColumnInfo(defaultValue = "NULL") val retryAt: Long? = null,
+    /** Automatic retries already spent in the current chain; 0 = none, or the chain ended. */
+    @ColumnInfo(defaultValue = "0") val retryCount: Int = 0
+) {
+    fun toEntity(): DownloadableFileEntity = DownloadableFileEntity(
+        name = name,
+        fileName = fileName,
+        consoleId = consoleId,
+        downloadUrl = downloadUrl,
+        fileSize = fileSize,
+        fileExtension = fileExtension,
+        torrentFileIndex = torrentFileIndex,
+        torrentMagnet = torrentMagnet
+    )
+
+    /** Whether the row was still running when the process died (see [com.cortinadev.snoopy.data.service.DownloadService.resumeInterrupted]). */
+    val wasInFlight: Boolean
+        get() = DownloadRestore.wasInFlight(DownloadStatus.valueOf(status))
+
+    /** In-flight statuses can't be resumed after a process death, so they come back as STOPPED (see [DownloadRestore]). */
+    fun toItem(): DownloadItemModel {
+        val restored = DownloadRestore.statusAfterRestart(DownloadStatus.valueOf(status), isTorrent = torrentFileIndex != null)
+        return DownloadItemModel(
+            name = name,
+            fileName = fileName,
+            downloadSpeed = 0f,
+            progress = if (restored == DownloadStatus.COMPLETED) 1f else 0f,
+            fileSize = fileSize,
+            downloadedBytes = if (restored == DownloadStatus.COMPLETED) fileSize else 0L,
+            status = restored,
+            startedAt = startedAt,
+            finishedAt = finishedAt ?: if (restored == DownloadStatus.STOPPED) startedAt else null
+        )
+    }
+
+    companion object {
+        fun from(file: DownloadableFileEntity, item: DownloadItemModel) = DownloadHistoryEntity(
+            fileName = file.fileName,
+            name = file.name,
+            consoleId = file.consoleId,
+            downloadUrl = file.downloadUrl,
+            fileSize = file.fileSize,
+            fileExtension = file.fileExtension,
+            torrentFileIndex = file.torrentFileIndex,
+            torrentMagnet = file.torrentMagnet,
+            status = item.status.name,
+            startedAt = item.startedAt,
+            finishedAt = item.finishedAt
+        )
+    }
+}

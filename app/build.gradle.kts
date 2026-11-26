@@ -14,20 +14,20 @@ val secrets = Properties().apply {
 fun secret(name: String): String = (secrets.getProperty(name) ?: System.getenv(name) ?: "").trim().trim('"')
 
 android {
-    namespace = "com.cortinadev.dogmatix"
+    namespace = "com.cortinadev.snoopy"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.cortinadev.dogmatix"
+        applicationId = "com.cortinadev.snoopy"
         minSdk = 29
         targetSdk = 36
         versionCode = 16
         versionName = "1.5.1"
 
         // Runs every instrumented test in a sandboxed Hilt test application (see app/src/androidTest/.../testing).
-        testInstrumentationRunner = "com.cortinadev.dogmatix.testing.DogmatixTestRunner"
+        testInstrumentationRunner = "com.cortinadev.snoopy.testing.DogmatixTestRunner"
 
         buildConfigField("String", "RAWG_API_KEY", "\"${secret("RAWG_API_KEY")}\"")
         buildConfigField("String", "THEGAMESDB_API_KEY", "\"${secret("THEGAMESDB_API_KEY")}\"")
@@ -53,7 +53,7 @@ android {
 
     buildTypes {
         debug {
-            // Installs alongside the release build (com.cortinadev.dogmatix.debug).
+            // Installs alongside the release build (com.cortinadev.snoopy.debug).
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
         }

@@ -26,7 +26,7 @@
 #                 the .debug app over whatever is on the device. With --instrumented it runs on
 #                 whatever is connected (ANDROID_SERIAL limits it to one device). The .debug
 #                 app is always left installed afterwards (Gradle would otherwise uninstall it and
-#                 wipe its data); only the test APK (com.cortinadev.dogmatix.debug.test) is
+#                 wipe its data); only the test APK (com.cortinadev.snoopy.debug.test) is
 #                 removed.
 #
 # Options:
@@ -433,7 +433,7 @@ step_build() {
 }
 
 RELEASE_APK="$ROOT/app/build/outputs/apk/release/app-release.apk"
-TEST_PACKAGE=com.cortinadev.dogmatix.debug.test
+TEST_PACKAGE=com.cortinadev.snoopy.debug.test
 step_release() {
   local start rc=0 note
   start=$(date +%s)

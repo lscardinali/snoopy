@@ -1,0 +1,20 @@
+package com.cortinadev.snoopy.ui.navigation
+
+import com.cortinadev.snoopy.R
+
+sealed class NavRoutes(val route: String, val labelRes: Int, val icon: Int) {
+    object Home : NavRoutes("home", R.string.nav_library, R.drawable.ic_search)
+    object Downloads : NavRoutes("downloads", R.string.nav_downloads, R.drawable.ic_arrow_down)
+    object Collection : NavRoutes("collection", R.string.nav_collection, R.drawable.ic_collection)
+    object Sources : NavRoutes("sources", R.string.nav_sources, R.drawable.ic_folder)
+    object Settings : NavRoutes("settings", R.string.nav_settings, R.drawable.ic_settings)
+    object Contact : NavRoutes("contact", R.string.nav_contact, R.drawable.ic_edit)
+    object Romm : NavRoutes("romm", R.string.nav_romm, R.drawable.ic_arrow_up)
+    object IaLogin : NavRoutes("ia_login", R.string.nav_ia_login, R.drawable.ic_settings)
+
+    companion object {
+        /** The sections shown as tabs; Contact, RomM and the Internet Archive sign-in are reached from Settings. */
+        val tabs by lazy { listOf(Home, Downloads, Collection, Sources, Settings) }
+        val allRoutes by lazy { tabs + Contact + Romm + IaLogin }
+    }
+}

@@ -8,7 +8,7 @@ It began in April 2026 as a fork of [Milou](https://github.com/santiifm/milou), 
 
 ## Download
 
-APKs are on the [releases page](https://github.com/cortinadev/dogmatix/releases). Android 10 or newer; arm64-v8a, armeabi-v7a and x86_64. Since 1.3.1 the app checks GitHub for a newer release when it starts and installs it in place (Settings → General → *Updates*).
+APKs are on the [releases page](https://github.com/cortinadev/snoopy/releases). Android 10 or newer; arm64-v8a, armeabi-v7a and x86_64. Since 1.3.1 the app checks GitHub for a newer release when it starts and installs it in place (Settings → General → *Updates*).
 
 Dogmatix ships **without sources**. On first run, import a sources JSON exported from another device, or add manufacturers, consoles and URLs by hand in *Sources*. No sources file is part of this repository.
 
@@ -147,7 +147,7 @@ Dogmatix was forked from Milou's `master` in April 2026. Milou is a phone app dr
 | UI languages | 1 | 6 |
 | Tests | 2 placeholders | 679 unit + 45 instrumented (767 + 50 in 1.5) |
 
-The package is `com.cortinadev.dogmatix` (Milou's is `com.santiifm.milou`), so Dogmatix installs as a separate app and does not update over a Milou install.
+The package is `com.cortinadev.snoopy` (Milou's is `com.santiifm.milou`), so Dogmatix installs as a separate app and does not update over a Milou install.
 
 ## How it works
 
@@ -199,10 +199,10 @@ The legend only appears while a controller is connected; names and colours follo
 Requirements: JDK 17, Android SDK platform 36, build-tools 36.0.0.
 
 ```bash
-git clone https://github.com/cortinadev/dogmatix.git
+git clone https://github.com/cortinadev/snoopy.git
 cd dogmatix
 
-./gradlew assembleDebug      # debug APK (applicationId com.cortinadev.dogmatix.debug)
+./gradlew assembleDebug      # debug APK (applicationId com.cortinadev.snoopy.debug)
 ./gradlew assembleRelease    # release APK (minified)
 ./gradlew test               # JVM unit tests
 ./gradlew lint               # fails on new errors (known ones are in app/lint-baseline.xml)
@@ -218,7 +218,7 @@ Unit tests cover the pure logic, instrumented tests cover migrations, DAOs, stor
 ### Project structure
 
 ```
-app/src/main/java/com/cortinadev/dogmatix/
+app/src/main/java/com/cortinadev/snoopy/
 ├── data/
 │   ├── local/       Room database (v21), entities, DAOs, DataStore settings
 │   ├── model/       Domain models (sources, games and versions, tags, regions)
@@ -260,7 +260,7 @@ Dogmatix is a fork of [Milou](https://github.com/santiifm/milou) by [santiifm](h
 
 ## Roadmap
 
-Ideas and requests are welcome as [issues](https://github.com/cortinadev/dogmatix/issues). The [CHANGELOG](CHANGELOG.md) lists what each release brought and what is still known to be rough.
+Ideas and requests are welcome as [issues](https://github.com/cortinadev/snoopy/issues). The [CHANGELOG](CHANGELOG.md) lists what each release brought and what is still known to be rough.
 
 ## Disclaimer
 

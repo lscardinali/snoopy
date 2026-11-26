@@ -1,0 +1,242 @@
+package com.cortinadev.snoopy.ui.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusRequester
+import com.cortinadev.snoopy.ui.common.Gamepad
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.cortinadev.snoopy.BuildConfig
+import com.cortinadev.snoopy.R
+import com.cortinadev.snoopy.ui.navigation.NavRoutes
+
+/** App title with the version tucked under it: tiny, faint, right-aligned to the wordmark. */
+@Composable
+private fun Wordmark(modifier: Modifier = Modifier) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.End) {
+        Text(stringResource(R.string.topbar_title), style = MaterialTheme.typography.titleLarge)
+        // Zero layout height + unbounded measure: the wordmark keeps its original centering in
+        // the row (as if this line did not exist) and the version overflows below it, pulled up
+        // 5dp so it hugs the logo.
+        Text(
+            BuildConfig.VERSION_NAME,
+            fontSize = 9.sp,
+            lineHeight = 10.sp,
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+            modifier = Modifier
+                .height(0.dp)
+                .wrapContentHeight(align = Alignment.Top, unbounded = true)
+                .offset(y = (-5).dp)
+        )
+    }
+}
+
+/** Landscape header: title, numbered section tabs (ZL / ZR), rescan status. */
+@Composable
+fun TopTabs(currentRoute: String, onSelect: (NavRoutes) -> Unit) {
+    val scheme = MaterialTheme.colorScheme
+    // Five tabs fill a 4:3 screen: narrow headers tighten the tabs, the narrowest drop their numbers.
+    val width = with(LocalDensity.current) { LocalWindowInfo.current.containerSize.width.toDp() }
+    val tabPadding = if (width < 760.dp) 10.dp else 16.dp
+    val numbered = width >= 680.dp
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(48.dp)
+            .padding(start = 20.dp, end = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Wordmark(modifier = Modifier.padding(end = if (numbered) 20.dp else 12.dp))
+        NavRoutes.tabs.forEachIndexed { index, route ->
+            val selected = route.route == currentRoute
+            val source = rememberFocusSource()
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .focusRequester(Gamepad.tabFocus.getValue(route.route))
+                    // The underline goes before the clip: inside it the rounded corners (the focus ring's) cut its ends.
+                    .drawBehind {
+                        if (selected) {
+                            drawRect(
+                                color = scheme.primary,
+                                topLeft = Offset(0f, size.height - 2.dp.toPx()),
+                                size = Size(size.width, 2.dp.toPx())
+                            )
+                        }
+                    }
+                    .clip(RoundedCornerShape(6.dp))
+                    .focusRing(source, 6.dp)
+                    .clickable(interactionSource = source, indication = null) { onSelect(route) }
+                    .padding(horizontal = tabPadding)
+            ) {
+                Row(
+                    modifier = Modifier.align(Alignment.Center),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    if (numbered) Text(
+                        "0${index + 1}",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = if (selected) scheme.onSurface else scheme.onSurfaceVariant
+                    )
+                    Text(
+                        stringResource(route.labelRes),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = if (selected) scheme.onSurface else scheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
+        Spacer(Modifier.weight(1f))
+        RescanIndicator(modifier = Modifier.widthIn(max = 260.dp))
+    }
+    HorizontalDivider(color = scheme.outlineVariant, thickness = 1.dp)
+}
+
+/** Portrait header: title plus rescan status. */
+@Composable
+fun PortraitHeader(trailing: @Composable (() -> Unit)? = null) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp)
+            .padding(horizontal = 20.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Wordmark()
+        Spacer(Modifier.weight(1f))
+        RescanIndicator(modifier = Modifier.widthIn(max = 200.dp))
+        trailing?.let { Spacer(Modifier.padding(start = 12.dp)); it() }
+    }
+}
+
+/** Portrait bottom bar with the sections. */
+@Composable
+fun BottomTabs(currentRoute: String, activeDownloads: Int, onSelect: (NavRoutes) -> Unit) {
+    val scheme = MaterialTheme.colorScheme
+    Column {
+        HorizontalDivider(color = scheme.outlineVariant, thickness = 1.dp)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(64.dp)
+                .background(scheme.background)
+        ) {
+            NavRoutes.tabs.forEach { route ->
+                val selected = route.route == currentRoute
+                val source = rememberFocusSource()
+                val tint = if (selected) scheme.primary else scheme.onSurfaceVariant
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .focusRequester(Gamepad.tabFocus.getValue(route.route))
+                        .clip(RoundedCornerShape(8.dp))
+                        .focusRing(source)
+                        .clickable(interactionSource = source, indication = null) { onSelect(route) },
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Box {
+                        Icon(painterResource(route.icon), contentDescription = stringResource(route.labelRes), tint = tint, modifier = Modifier.size(22.dp))
+                        if (route == NavRoutes.Downloads && activeDownloads > 0) {
+                            Text(
+                                activeDownloads.toString(),
+                                style = MaterialTheme.typography.labelSmall,
+                                color = scheme.onPrimary,
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(start = 14.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(scheme.primary)
+                                    .padding(horizontal = 5.dp)
+                            )
+                        }
+                    }
+                    Spacer(Modifier.height(4.dp))
+                    Text(stringResource(route.labelRes), style = MaterialTheme.typography.labelSmall, color = tint)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun legendFor(route: String): List<LegendEntry> {
+    val section = LegendEntry("ZL · ZR", stringResource(R.string.pad_section))
+    val back = LegendEntry("B", stringResource(R.string.pad_back))
+    return when (route) {
+        NavRoutes.Home.route -> listOf(
+            LegendEntry("A", stringResource(R.string.pad_download)), back,
+            LegendEntry("X", stringResource(R.string.pad_filters)),
+            LegendEntry("Y", stringResource(R.string.pad_search)), section
+        )
+        // Downloads fits four entries on one line in 4:3; SELECT (multi-selection) earns B's slot.
+        NavRoutes.Downloads.route -> listOf(
+            LegendEntry("A", stringResource(R.string.pad_retry)),
+            LegendEntry("X", stringResource(R.string.pad_delete)),
+            LegendEntry("SELECT", stringResource(R.string.pad_tick)), section
+        )
+        NavRoutes.Sources.route -> listOf(LegendEntry("A", stringResource(R.string.pad_open)), back, section)
+        // The Collection tools publish their own; this is what is left when one of them does not.
+        NavRoutes.Collection.route -> listOf(
+            LegendEntry("A", stringResource(R.string.pad_open)), LegendEntry("LB · RB", stringResource(R.string.pad_panels)), back, section
+        )
+        NavRoutes.Settings.route, NavRoutes.Romm.route -> listOf(
+            LegendEntry("A", stringResource(R.string.pad_change)),
+            LegendEntry("◀ ▶", stringResource(R.string.pad_adjust)), back, section
+        )
+        // The archive.org sign-in page: a web page, its own fields and buttons; B leaves without saving.
+        NavRoutes.IaLogin.route -> listOf(LegendEntry("A", stringResource(R.string.pad_select)), back, section)
+        else -> listOf(back)
+    }
+}
+
+@Composable
+fun NoGamepadHint(trailing: @Composable (() -> Unit)? = null) {
+    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, thickness = 1.dp)
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(30.dp)
+            .padding(horizontal = 20.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            stringResource(R.string.pad_none),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(Modifier.weight(1f))
+        trailing?.invoke()
+    }
+}

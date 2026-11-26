@@ -1,0 +1,181 @@
+package com.cortinadev.snoopy.ui.common
+
+import android.content.Context
+import android.hardware.input.InputManager
+import android.view.InputDevice
+import android.view.KeyEvent
+import android.view.MotionEvent
+import androidx.compose.ui.focus.FocusRequester
+import com.cortinadev.snoopy.ui.components.LegendEntry
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+
+/**
+ * Buttons the app handles itself. A / B / D-pad go through the normal focus system.
+ * ZL / ZR switch sections, LB / RB switch panels inside a screen, Select stars a game,
+ * R3 collapses / expands the filter panel, Start reorders a row of the download queue.
+ */
+enum class GamepadButton { PREV_TAB, NEXT_TAB, PREV_PANEL, NEXT_PANEL, X, Y, FAVOURITE, TOGGLE_FILTERS, FOCUS_TAB, START }
+
+/**
+ * Process-wide gamepad state: whether one is connected (drives the button legend)
+ * and a bus for the shoulder / X / Y presses that screens react to.
+ */
+object Gamepad {
+    private val _connected = MutableStateFlow(false)
+    val connected: StateFlow<Boolean> = _connected.asStateFlow()
+
+    val presses = MutableSharedFlow<GamepadButton>(extraBufferCapacity = 8)
+
+    /** One requester per section tab (keyed by route) so focus can be handed to the active tab. */
+    val tabFocus: Map<String, FocusRequester> = mapOf(
+        "home" to FocusRequester(), "downloads" to FocusRequester(), "collection" to FocusRequester(),
+        "sources" to FocusRequester(), "settings" to FocusRequester()
+    )
+    var currentRoute: String = "home"
+
+    /** Requester of the active section tab (screens hand focus back to the header with B). */
+    val sectionFocus: FocusRequester get() = tabFocus[currentRoute] ?: tabFocus.getValue("home")
+
+    /**
+     * A screen can publish a context-specific button legend here (null = the section default).
+     * Wrapped in [Legend] (identity equality) on purpose: StateFlow conflates equal values, and two
+     * screens with the same entries (Settings and RomM) would otherwise share one stored reference
+     * and the outgoing screen's onDispose would wipe the incoming one's legend.
+     */
+    val legendOverride = MutableStateFlow<Legend?>(null)
+
+    /** How the face and shoulder buttons are named in the legend (Settings); actions never change. */
+    val layout = MutableStateFlow(GamepadLayout.XBOX)
+
+    /** Settings: the pad reports its face buttons the other way round, so A/B and X/Y are swapped. */
+    val swapFaceButtons = MutableStateFlow(false)
+
+    /** Guards [remap] against re-entering itself when a swapped event is dispatched again. */
+    private var remapping = false
+
+    /**
+     * The event the app should act on, with the swap setting applied (see [swapFaceKeyCode]).
+     * Returns [event] itself when nothing changes, so callers can compare by identity.
+     */
+    fun remap(event: KeyEvent): KeyEvent {
+        if (!swapFaceButtons.value || remapping) return event
+        val keyCode = swapFaceKeyCode(event.keyCode)
+        if (keyCode == event.keyCode) return event
+        return KeyEvent(
+            event.downTime, event.eventTime, event.action, keyCode, event.repeatCount,
+            event.metaState, event.deviceId, event.scanCode, event.flags, event.source
+        )
+    }
+
+    /** Runs [block] with [remap] disabled: the event it dispatches is already swapped. */
+    fun withoutRemapping(block: () -> Unit) {
+        remapping = true
+        try { block() } finally { remapping = false }
+    }
+
+    private var listener: InputManager.InputDeviceListener? = null
+
+    fun startWatching(context: Context) {
+        val manager = context.getSystemService(Context.INPUT_SERVICE) as InputManager
+        refresh()
+        if (listener == null) {
+            listener = object : InputManager.InputDeviceListener {
+                override fun onInputDeviceAdded(deviceId: Int) = refresh()
+                override fun onInputDeviceRemoved(deviceId: Int) = refresh()
+                override fun onInputDeviceChanged(deviceId: Int) = refresh()
+            }.also { manager.registerInputDeviceListener(it, null) }
+        }
+    }
+
+    fun refresh() {
+        _connected.value = InputDevice.getDeviceIds().any { id ->
+            InputDevice.getDevice(id)?.let { isGamepad(it) } == true
+        }
+    }
+
+    private fun isGamepad(device: InputDevice): Boolean {
+        val sources = device.sources
+        val pad = sources and InputDevice.SOURCE_GAMEPAD == InputDevice.SOURCE_GAMEPAD
+        val stick = sources and InputDevice.SOURCE_JOYSTICK == InputDevice.SOURCE_JOYSTICK
+        return (pad || stick) && !device.isVirtual
+    }
+
+    /**
+     * After a section switch the focus ring is hidden; the next D-pad press only brings it
+     * back (on the active tab) instead of moving anything. Set by the shell.
+     */
+    val pointerHidden = MutableStateFlow(false)
+    private var swallowNextUp = false
+
+    /** Call from Activity.dispatchKeyEvent, before the views see the key. */
+    fun interceptKey(event: KeyEvent): Boolean {
+        // Shortcut buttons are consumed entirely (down and up): if their key-up reached Compose
+        // with nothing focused, it would re-initialise focus on the first tab.
+        val shortcut = when (event.keyCode) {
+            KeyEvent.KEYCODE_BUTTON_L2 -> GamepadButton.PREV_TAB
+            KeyEvent.KEYCODE_BUTTON_R2 -> GamepadButton.NEXT_TAB
+            KeyEvent.KEYCODE_BUTTON_L1 -> GamepadButton.PREV_PANEL
+            KeyEvent.KEYCODE_BUTTON_R1 -> GamepadButton.NEXT_PANEL
+            KeyEvent.KEYCODE_BUTTON_X -> GamepadButton.X
+            KeyEvent.KEYCODE_BUTTON_Y -> GamepadButton.Y
+            KeyEvent.KEYCODE_BUTTON_SELECT, KeyEvent.KEYCODE_BUTTON_THUMBL -> GamepadButton.FAVOURITE
+            KeyEvent.KEYCODE_BUTTON_THUMBR -> GamepadButton.TOGGLE_FILTERS
+            // Downloads: reorder the row under the cursor (unused elsewhere).
+            KeyEvent.KEYCODE_BUTTON_START -> GamepadButton.START
+            else -> null
+        }
+        if (shortcut != null) {
+            if (event.source and InputDevice.SOURCE_GAMEPAD == InputDevice.SOURCE_GAMEPAD) _connected.value = true
+            val trigger = when (shortcut) {
+                GamepadButton.PREV_TAB -> leftTrigger
+                GamepadButton.NEXT_TAB -> rightTrigger
+                else -> null
+            }
+            when {
+                // ZL / ZR share their state with the axis: analog triggers send both.
+                trigger != null -> if (event.action == KeyEvent.ACTION_DOWN || event.action == KeyEvent.ACTION_UP) {
+                    if (trigger.onKey(event.action == KeyEvent.ACTION_DOWN)) presses.tryEmit(shortcut)
+                }
+                event.action == KeyEvent.ACTION_DOWN && event.repeatCount == 0 -> presses.tryEmit(shortcut)
+            }
+            return true
+        }
+        val dpad = when (event.keyCode) {
+            KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_LEFT,
+            KeyEvent.KEYCODE_DPAD_RIGHT, KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_BUTTON_A -> true
+            else -> false
+        }
+        if (!dpad) return false
+        if (event.action == KeyEvent.ACTION_DOWN && pointerHidden.value) {
+            pointerHidden.value = false
+            swallowNextUp = true
+            presses.tryEmit(GamepadButton.FOCUS_TAB)
+            return true
+        }
+        if (event.action == KeyEvent.ACTION_UP && swallowNextUp) {
+            swallowNextUp = false
+            return true
+        }
+        return false
+    }
+
+    private val leftTrigger = TriggerPress()
+    private val rightTrigger = TriggerPress()
+
+    /** Some pads report ZL / ZR as analog axes (alone or along with the key): see [TriggerPress]. */
+    fun onGenericMotionEvent(event: MotionEvent): Boolean {
+        if (event.source and InputDevice.SOURCE_JOYSTICK != InputDevice.SOURCE_JOYSTICK &&
+            event.source and InputDevice.SOURCE_GAMEPAD != InputDevice.SOURCE_GAMEPAD) return false
+        val left = maxOf(event.getAxisValue(MotionEvent.AXIS_LTRIGGER), event.getAxisValue(MotionEvent.AXIS_BRAKE))
+        val right = maxOf(event.getAxisValue(MotionEvent.AXIS_RTRIGGER), event.getAxisValue(MotionEvent.AXIS_GAS))
+        if (leftTrigger.onAxis(left)) presses.tryEmit(GamepadButton.PREV_TAB)
+        if (rightTrigger.onAxis(right)) presses.tryEmit(GamepadButton.NEXT_TAB)
+        return false
+    }
+}
+
+/** One published legend; plain class so two lists with equal entries are still distinct. */
+class Legend(val entries: List<LegendEntry>)

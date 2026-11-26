@@ -7,7 +7,7 @@
 #   DOGMATIX_DOCKER=1 scripts/release-check.sh <apk> ...   # run inside the dogmatix-build image
 #
 # What it checks (✓ passed, ✗ failed, ⚠ warning, · information). Only ✗ makes it fail.
-#   Identity   aapt2 (or aapt) "dump badging": the package is com.cortinadev.dogmatix (a .debug
+#   Identity   aapt2 (or aapt) "dump badging": the package is com.cortinadev.snoopy (a .debug
 #              package or a "-debug" versionName is reported as a debug build, not publishable),
 #              versionName and versionCode match app/build.gradle.kts, the APK is not
 #              debuggable. minSdk, targetSdk and the native ABIs are compared too (warnings).
@@ -36,7 +36,7 @@
 # Environment:
 #   DOGMATIX_RELEASE_SIGNER  expected signer SHA-256; default is the key of the published
 #                            releases, 9452f9f78dc174360f3a492d68dd06e2877e60cbe8668b76ee20c6d53c93313a
-#   DOGMATIX_PACKAGE         expected package (default com.cortinadev.dogmatix)
+#   DOGMATIX_PACKAGE         expected package (default com.cortinadev.snoopy)
 #   DOGMATIX_BUILD_TOOLS     a build-tools directory to use instead of searching the SDK
 #   ANDROID_HOME / ANDROID_SDK_ROOT  SDK searched for the newest build-tools with aapt2 and
 #                            apksigner (sdk.dir in local.properties is tried too)
@@ -55,7 +55,7 @@ set -euo pipefail
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 DEFAULT_SIGNER=9452f9f78dc174360f3a492d68dd06e2877e60cbe8668b76ee20c6d53c93313a
-EXPECTED_PACKAGE="${DOGMATIX_PACKAGE:-com.cortinadev.dogmatix}"
+EXPECTED_PACKAGE="${DOGMATIX_PACKAGE:-com.cortinadev.snoopy}"
 
 usage() { sed -n '2,/^$/{s/^# \{0,1\}//;p;}' "$0"; }
 die() { echo "release-check.sh: $*" >&2; exit 2; }

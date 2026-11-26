@@ -122,10 +122,10 @@ folder permissions. Install both APKs and run the instrumentation directly:
 adb install -r -t app/build/outputs/apk/debug/app-debug.apk
 adb install -r -t app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 adb shell am instrument -w -r \
-  com.cortinadev.dogmatix.debug.test/com.cortinadev.dogmatix.testing.DogmatixTestRunner
-# one class:   -e class com.cortinadev.dogmatix.data.local.MigrationTest
-# skip gamepad: -e notClass com.cortinadev.dogmatix.ui.GamepadSmokeTest
-adb uninstall com.cortinadev.dogmatix.debug.test
+  com.cortinadev.snoopy.debug.test/com.cortinadev.snoopy.testing.DogmatixTestRunner
+# one class:   -e class com.cortinadev.snoopy.data.local.MigrationTest
+# skip gamepad: -e notClass com.cortinadev.snoopy.ui.GamepadSmokeTest
+adb uninstall com.cortinadev.snoopy.debug.test
 ```
 
 Keep the screen on and unlocked. It takes 2–3 minutes. The app's process is killed when the run

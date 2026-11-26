@@ -60,7 +60,7 @@ data directory, then restart ES-DE:
 <ruleList>
     <emulator name="DOGMATIX">
         <rule type="androidpackage">
-            <entry>com.cortinadev.dogmatix/com.cortinadev.dogmatix.MainActivity</entry>
+            <entry>com.cortinadev.snoopy/com.cortinadev.snoopy.MainActivity</entry>
         </rule>
     </emulator>
 </ruleList>
@@ -189,9 +189,9 @@ its `shortName` (which is also its folder name) and add the extension and the em
       "routeType": "uri",
       "commands": [
         { "description": "Search for more games",
-          "command": "com.cortinadev.dogmatix/com.cortinadev.dogmatix.MainActivity -a android.intent.action.VIEW -d %ROM_URI%" }
+          "command": "com.cortinadev.snoopy/com.cortinadev.snoopy.MainActivity -a android.intent.action.VIEW -d %ROM_URI%" }
       ],
-      "packages": ["com.cortinadev.dogmatix"] }
+      "packages": ["com.cortinadev.snoopy"] }
   ]
 }
 ```
@@ -215,7 +215,7 @@ In Daijishō, go to Settings → Library → **Add an emulator** and fill it in:
 | Field | Value |
 |---|---|
 | Emulator name | `Dogmatix` |
-| Emulator am start arguments | `-a android.intent.action.VIEW`<br>`-n com.cortinadev.dogmatix/com.cortinadev.dogmatix.MainActivity`<br>`-d {file.uri}`<br>`--grant-read-uri-permission` |
+| Emulator am start arguments | `-a android.intent.action.VIEW`<br>`-n com.cortinadev.snoopy/com.cortinadev.snoopy.MainActivity`<br>`-d {file.uri}`<br>`--grant-read-uri-permission` |
 | Accepted filename regex | `^(.*)\.(?:dgmtx)$` |
 | Kill package processes before am start | off |
 
@@ -278,7 +278,7 @@ Anything that can fire an Android intent works:
 
 ```
 am start -a android.intent.action.VIEW \
-    -n com.cortinadev.dogmatix/com.cortinadev.dogmatix.MainActivity \
+    -n com.cortinadev.snoopy/com.cortinadev.snoopy.MainActivity \
     -d <content-uri-of-the-dgmtx-file> --grant-read-uri-permission
 ```
 

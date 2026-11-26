@@ -42,12 +42,12 @@
 #-renamesourcefileattribute SourceFile
 
 # coleccion-analisis: the Collection analysis is cached as JSON (Gson); keep the field names it was written with.
--keepclassmembers class com.cortinadev.dogmatix.util.LibrarySnapshot { <fields>; }
--keepclassmembers class com.cortinadev.dogmatix.util.DiskFile { <fields>; }
--keepclassmembers class com.cortinadev.dogmatix.util.DiskFolder { <fields>; }
--keepclassmembers class com.cortinadev.dogmatix.util.VolumeUsage { <fields>; }
--keepclassmembers class com.cortinadev.dogmatix.util.LibraryRoot { <fields>; }
--keepclassmembers class com.cortinadev.dogmatix.util.CatalogRow { <fields>; }
+-keepclassmembers class com.cortinadev.snoopy.util.LibrarySnapshot { <fields>; }
+-keepclassmembers class com.cortinadev.snoopy.util.DiskFile { <fields>; }
+-keepclassmembers class com.cortinadev.snoopy.util.DiskFolder { <fields>; }
+-keepclassmembers class com.cortinadev.snoopy.util.VolumeUsage { <fields>; }
+-keepclassmembers class com.cortinadev.snoopy.util.LibraryRoot { <fields>; }
+-keepclassmembers class com.cortinadev.snoopy.util.CatalogRow { <fields>; }
 
 # rvz: zstd-jni's native code looks up its Java classes, fields and constructors by name.
 -keep class com.github.luben.zstd.** { *; }

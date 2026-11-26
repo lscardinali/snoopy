@@ -18,7 +18,7 @@
         errorLine1="        val config = Configuration(context.resources.configuration).apply { setLocales(LocaleList.forLanguageTags(tags)) }"
         errorLine2="                                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/data/search/SearchStrings.kt"
+            file="src/main/java/com/cortinadev/snoopy/data/search/SearchStrings.kt"
             line="30"
             column="77"/>
     </issue>
@@ -29,7 +29,7 @@
         errorLine1="    while (requesters.size &lt; count) requesters += FocusRequester()"
         errorLine2="                                                  ~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/ui/screens/home/components/ActiveFiltersBar.kt"
+            file="src/main/java/com/cortinadev/snoopy/ui/screens/home/components/ActiveFiltersBar.kt"
             line="77"
             column="51"/>
     </issue>
@@ -282,7 +282,7 @@
         errorLine1="    val isLandscape = LocalConfiguration.current.screenWidthDp > LocalConfiguration.current.screenHeightDp"
         errorLine2="                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/ui/screens/contact/ContactScreen.kt"
+            file="src/main/java/com/cortinadev/snoopy/ui/screens/contact/ContactScreen.kt"
             line="56"
             column="66"/>
     </issue>
@@ -293,7 +293,7 @@
         errorLine1="    val isLandscape = LocalConfiguration.current.screenWidthDp > LocalConfiguration.current.screenHeightDp"
         errorLine2="                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/ui/screens/contact/ContactScreen.kt"
+            file="src/main/java/com/cortinadev/snoopy/ui/screens/contact/ContactScreen.kt"
             line="56"
             column="23"/>
     </issue>
@@ -304,7 +304,7 @@
         errorLine1="    val maxListHeight = (LocalConfiguration.current.screenHeightDp * 0.45f).dp"
         errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/ui/screens/sources/components/ScanStatus.kt"
+            file="src/main/java/com/cortinadev/snoopy/ui/screens/sources/components/ScanStatus.kt"
             line="174"
             column="26"/>
     </issue>
@@ -315,7 +315,7 @@
         errorLine1="    LaunchedEffect(viewModel) { viewModel.errors.collect { ToastUtil.showError(context, context.getString(it)) } }"
         errorLine2="                                                                                        ~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/ui/screens/home/components/RommGameSection.kt"
+            file="src/main/java/com/cortinadev/snoopy/ui/screens/home/components/RommGameSection.kt"
             line="83"
             column="89"/>
     </issue>
@@ -326,7 +326,7 @@
         errorLine1="        context.startActivity(Intent.createChooser(send, context.getString(R.string.sources_export_share_title)))"
         errorLine2="                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/ui/screens/sources/SourcesScreen.kt"
+            file="src/main/java/com/cortinadev/snoopy/ui/screens/sources/SourcesScreen.kt"
             line="109"
             column="58"/>
     </issue>
@@ -337,7 +337,7 @@
         errorLine1="            ToastUtil.showError(context, context.getString(R.string.update_no_installer))"
         errorLine2="                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/ui/screens/settings/UpdateSettings.kt"
+            file="src/main/java/com/cortinadev/snoopy/ui/screens/settings/UpdateSettings.kt"
             line="127"
             column="42"/>
     </issue>
@@ -348,7 +348,7 @@
         errorLine1="    modifier: Modifier = Modifier"
         errorLine2="    ~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/ui/screens/settings/SettingsScreen.kt"
+            file="src/main/java/com/cortinadev/snoopy/ui/screens/settings/SettingsScreen.kt"
             line="1070"
             column="5"/>
     </issue>
@@ -359,7 +359,7 @@
         errorLine1="    modifier: Modifier = Modifier,"
         errorLine2="    ~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/ui/screens/settings/SettingsScreen.kt"
+            file="src/main/java/com/cortinadev/snoopy/ui/screens/settings/SettingsScreen.kt"
             line="1111"
             column="5"/>
     </issue>
@@ -370,7 +370,7 @@
         errorLine1="fun TagChip(text: String, emphasized: Boolean = false, modifier: Modifier = Modifier, colors: ChipColors? = null) {"
         errorLine2="                                                       ~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/ui/components/TagChip.kt"
+            file="src/main/java/com/cortinadev/snoopy/ui/components/TagChip.kt"
             line="18"
             column="56"/>
     </issue>
@@ -381,7 +381,7 @@
         errorLine1="    modifier: Modifier = Modifier,"
         errorLine2="    ~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/ui/screens/collection/toolkit/ToolPaneKit.kt"
+            file="src/main/java/com/cortinadev/snoopy/ui/screens/collection/toolkit/ToolPaneKit.kt"
             line="146"
             column="5"/>
     </issue>
@@ -1866,7 +1866,7 @@
         errorLine1="    private inner class PinAwareTrustManager : X509ExtendedTrustManager() {"
         errorLine2="                        ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/data/service/RommTls.kt"
+            file="src/main/java/com/cortinadev/snoopy/data/service/RommTls.kt"
             line="159"
             column="25"/>
     </issue>
@@ -1877,7 +1877,7 @@
         errorLine1="        val capture = object : X509ExtendedTrustManager() {"
         errorLine2="                      ~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/data/service/RommTls.kt"
+            file="src/main/java/com/cortinadev/snoopy/data/service/RommTls.kt"
             line="204"
             column="23"/>
     </issue>
@@ -1888,7 +1888,7 @@
         errorLine1="            acquire()"
         errorLine2="            ~~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/data/service/DownloadForegroundService.kt"
+            file="src/main/java/com/cortinadev/snoopy/data/service/DownloadForegroundService.kt"
             line="52"
             column="13"/>
     </issue>
@@ -1906,7 +1906,7 @@
         errorLine1="    val focusIndex = listState.firstVisibleItemIndex"
         errorLine2="                               ~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/ui/screens/home/HomeScreen.kt"
+            file="src/main/java/com/cortinadev/snoopy/ui/screens/home/HomeScreen.kt"
             line="1106"
             column="32"/>
     </issue>
@@ -1917,7 +1917,7 @@
         errorLine1="    val firstShelf = columnState.firstVisibleItemIndex"
         errorLine2="                                 ~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/ui/screens/home/components/Recommendations.kt"
+            file="src/main/java/com/cortinadev/snoopy/ui/screens/home/components/Recommendations.kt"
             line="168"
             column="34"/>
     </issue>
@@ -1928,7 +1928,7 @@
         errorLine1="                val firstCard = rowState.firstVisibleItemIndex"
         errorLine2="                                         ~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/ui/screens/home/components/Recommendations.kt"
+            file="src/main/java/com/cortinadev/snoopy/ui/screens/home/components/Recommendations.kt"
             line="197"
             column="42"/>
     </issue>
@@ -1961,7 +1961,7 @@
         errorLine1="    var focusedIndex by remember { mutableStateOf(-1) }"
         errorLine2="                                   ~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/ui/screens/settings/romm/RommScreen.kt"
+            file="src/main/java/com/cortinadev/snoopy/ui/screens/settings/romm/RommScreen.kt"
             line="205"
             column="36"/>
     </issue>
@@ -2562,7 +2562,7 @@
         errorLine1="        return runCatching { Color(android.graphics.Color.parseColor(hex)) }.getOrDefault(default)"
         errorLine2="                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src/main/java/com/cortinadev/dogmatix/ui/theme/ThemeMode.kt"
+            file="src/main/java/com/cortinadev/snoopy/ui/theme/ThemeMode.kt"
             line="33"
             column="36"/>
     </issue>
