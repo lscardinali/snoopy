@@ -365,12 +365,28 @@ abstract class DogmatixDatabase : RoomDatabase() {
             }
         }
 
-        /** Snoopy: a console can override "Auto-unzip files" (keep Neo Geo / arcade sets zipped). */
+        /**
+         * Snoopy: a console can override "Auto-unzip files" (keep Neo Geo / arcade sets zipped).
+         * Early Snoopy builds called their own `consoles.unpack` change version 21 too, without
+         * Dogmatix 1.5's `titleKey`: each column is added only when it is missing, so both kinds of
+         * version-21 database arrive at the same 22.
+         */
         val MIGRATION_21_22 = object : Migration(21, 22) {
             override fun migrate(db: SupportSQLiteDatabase) {
-                db.execSQL("ALTER TABLE consoles ADD COLUMN unpack TEXT NOT NULL DEFAULT ''")
+                if (!db.hasColumn("consoles", "unpack")) {
+                    db.execSQL("ALTER TABLE consoles ADD COLUMN unpack TEXT NOT NULL DEFAULT ''")
+                }
+                if (!db.hasColumn("downloadable_files", "titleKey")) {
+                    MIGRATION_20_21.migrate(db)
+                }
             }
         }
+
+        private fun SupportSQLiteDatabase.hasColumn(table: String, column: String): Boolean =
+            query("PRAGMA table_info(`$table`)").use { cursor ->
+                val name = cursor.getColumnIndex("name")
+                generateSequence { if (cursor.moveToNext()) cursor.getString(name) else null }.any { it == column }
+            }
 
         /** Generalises the TorBox resume ids to any debrid service (string ids); SQLite < 3.35 can't drop columns, so rebuild. */
         val MIGRATION_8_9 = object : Migration(8, 9) {
