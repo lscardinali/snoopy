@@ -502,6 +502,8 @@
     <string name="settings_per_host_hint">Descargas web a la vez desde un mismo servidor; algunos bloquean a quien abre muchas conexiones</string>
     <string name="settings_multi_disc">Juegos multidisco (.m3u)</string>
     <string name="settings_multi_disc_hint">Cuando están todos los discos, pasan a una carpeta «Juego.m3u» con su lista: el frontend muestra un solo juego y el emulador cambia de disco</string>
+    <string name="settings_compress_chd">Comprimir imágenes de disco a CHD</string>
+    <string name="settings_compress_chd_hint">Los juegos terminados de PlayStation, PS2, PSP, Saturn, Dreamcast, Sega CD y PC Engine CD (.cue/.bin, .gdi, .iso, descargados o descomprimidos) pasan a .chd en segundo plano y se borran los originales</string>
     <string name="settings_chd_compression">Compresión de CHD</string>
     <string name="settings_chd_compression_hint">Rápida tarda mucho menos; Mejor da un CHD algo más pequeño</string>
     <string name="chd_compression_best">Mejor</string>
@@ -894,6 +896,7 @@
     <string name="search_kw_auto_scan_wifi">wifi, datos móviles, red, escaneo en segundo plano</string>
     <string name="search_kw_auto_scan_charging">batería, cargador, enchufado, corriente, escaneo en segundo plano</string>
     <string name="search_kw_verify_downloads">suma de comprobación, crc, sha-1, md5, hash, integridad, no-intro, redump</string>
+    <string name="search_kw_compress_chd">chd, comprimir, compresión, convertir, iso, bin, cue, gdi, chdman, ps1, ps2, psp, playstation, espacio, automático</string>
     <string name="search_kw_chd_compression">chd, compresión, convertir, lzma, zlib, rápida, más pequeño, chdman</string>
     <string name="search_kw_dat_files">dat, no-intro, redump, libretro, suma de comprobación, importar</string>
     <string name="search_kw_batch_notice">notificación, terminadas, completadas, fallidas, aviso</string>

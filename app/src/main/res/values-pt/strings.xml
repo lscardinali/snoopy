@@ -507,6 +507,8 @@
     <string name="settings_off">Desligado</string>
     <string name="settings_per_host">Transferências por servidor</string>
     <string name="settings_per_host_hint">Transferências web em simultâneo do mesmo servidor; alguns servidores bloqueiam clientes com muitas ligações</string>
+    <string name="settings_compress_chd">Comprimir imagens de disco para CHD</string>
+    <string name="settings_compress_chd_hint">Os jogos de PlayStation, PS2, PSP, Saturn, Dreamcast, Sega CD e PC Engine CD terminados (.cue/.bin, .gdi, .iso, transferidos ou descomprimidos) passam a .chd em segundo plano e os originais são apagados</string>
     <string name="settings_multi_disc">Jogos multidisco (.m3u)</string>
     <string name="settings_multi_disc_hint">Quando estão todos os discos, passam para uma pasta «Jogo.m3u» com a respetiva lista: o frontend mostra um só jogo e o emulador troca de disco</string>
     <string name="settings_region">Região preferida</string>
@@ -845,6 +847,7 @@
     <string name="search_kw_seeding">torrent, semear, seed, envio, upload, rácio, ratio, partilhar, compartilhar, pares, peers</string>
     <string name="search_kw_auto_retry">falhas, erro, tentativas, repetir, rede</string>
     <string name="search_kw_auto_unzip">extrair, zip, 7z, descomprimir, descompactar, comprimido</string>
+    <string name="search_kw_compress_chd">chd, comprimir, compressão, converter, iso, bin, cue, gdi, chdman, ps1, ps2, psp, playstation, espaço, automático</string>
     <string name="search_kw_multi_disc">m3u, lista, playlist, discos, cd, multidisco</string>
     <string name="search_kw_separate_console">pastas, subpastas, por consola, plataforma</string>
     <string name="search_kw_debrid">torbox, real-debrid, chave de api, token, premium</string>

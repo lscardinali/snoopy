@@ -72,10 +72,13 @@ interface SettingsRepository {
     val autoRetryAttempts: Flow<Int>
     val perHostDownloads: Flow<Int>
     val multiDiscPlaylists: Flow<Boolean>
+    /** Disc images of finished downloads are converted to CHD in the background, the originals deleted (AutoChdService). */
+    val compressToChd: Flow<Boolean>
     val preferredRegion: Flow<PreferredRegion>
     suspend fun setAutoRetryAttempts(attempts: Int): Preferences
     suspend fun setPerHostDownloads(max: Int): Preferences
     suspend fun setMultiDiscPlaylists(enabled: Boolean): Preferences
+    suspend fun setCompressToChd(enabled: Boolean): Preferences
     suspend fun setPreferredRegion(region: PreferredRegion): Preferences
     /** One library entry per game across its translated titles. */
     val unifyTitles: Flow<Boolean>

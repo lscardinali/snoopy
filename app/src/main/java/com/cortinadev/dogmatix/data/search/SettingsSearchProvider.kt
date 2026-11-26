@@ -45,6 +45,7 @@ object SettingsRowKeys {
     const val VERIFY_DOWNLOADS = "verify_downloads"
     const val DAT_FILES = "dat_files"
     const val CHD_COMPRESSION = "chd_compression"
+    const val COMPRESS_CHD = "compress_chd"
     const val BATCH_NOTICE = "batch_notice"
     const val ESDE_FAVOURITES = "esde_favourites"
     const val FRONTEND_CHECK = "frontend_check"
@@ -105,6 +106,7 @@ object SettingsSearchEntries {
         row(SettingsRowKeys.AUTO_SCAN_CHARGING, R.string.settings_auto_scan_charging, R.string.settings_auto_scan_charging_hint, R.string.search_kw_auto_scan_charging),
         row(SettingsRowKeys.VERIFY_DOWNLOADS, R.string.settings_verify_downloads, R.string.settings_verify_downloads_hint, R.string.search_kw_verify_downloads),
         row(SettingsRowKeys.DAT_FILES, R.string.settings_dat_files, R.string.settings_dat_files_hint_none, R.string.search_kw_dat_files),
+        row(SettingsRowKeys.COMPRESS_CHD, R.string.settings_compress_chd, R.string.settings_compress_chd_hint, R.string.search_kw_compress_chd),
         row(SettingsRowKeys.CHD_COMPRESSION, R.string.settings_chd_compression, R.string.settings_chd_compression_hint, R.string.search_kw_chd_compression),
         row(SettingsRowKeys.BATCH_NOTICE, R.string.settings_batch_notice, R.string.settings_batch_notice_hint, R.string.search_kw_batch_notice),
         row(SettingsRowKeys.ESDE_FAVOURITES, R.string.settings_esde_favourites, R.string.settings_esde_favourites_hint, R.string.search_kw_esde_favourites),

@@ -534,6 +534,8 @@
     <string name="settings_per_host_hint">Web downloads at once from the same server; some servers block clients with many connections</string>
     <string name="settings_multi_disc">Multi-disc games (.m3u)</string>
     <string name="settings_multi_disc_hint">Once every disc is in, they go into a «Game.m3u» folder with its playlist: the frontend shows one game and the emulator swaps discs</string>
+    <string name="settings_compress_chd">Compress disc images to CHD</string>
+    <string name="settings_compress_chd_hint">Finished PlayStation, PS2, PSP, Saturn, Dreamcast, Sega CD and PC Engine CD games (.cue/.bin, .gdi, .iso, downloaded or unzipped) become .chd in the background and the originals are deleted</string>
     <string name="settings_chd_compression">CHD compression</string>
     <string name="settings_chd_compression_hint">Fast takes much less time; Best makes a slightly smaller CHD</string>
     <string name="chd_compression_best">Best</string>
@@ -926,6 +928,7 @@
     <string name="search_kw_auto_scan_wifi">wifi, wi-fi, mobile data, network, background scan</string>
     <string name="search_kw_auto_scan_charging">battery, charger, plugged in, power, background scan</string>
     <string name="search_kw_verify_downloads">checksum, crc, sha-1, md5, hash, integrity, no-intro, redump</string>
+    <string name="search_kw_compress_chd">chd, compress, compression, convert, iso, bin, cue, gdi, chdman, ps1, ps2, psp, playstation, space, automatic</string>
     <string name="search_kw_chd_compression">chd, compression, convert, lzma, zlib, fast, smaller, chdman</string>
     <string name="search_kw_dat_files">dat, no-intro, redump, libretro, checksum, import</string>
     <string name="search_kw_batch_notice">notification, finished, completed, failed, alert</string>

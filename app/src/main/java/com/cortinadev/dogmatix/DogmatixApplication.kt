@@ -38,6 +38,10 @@ class DogmatixApplication : Application(), ImageLoaderFactory {
     @Inject
     lateinit var multiDiscService: com.cortinadev.dogmatix.data.service.MultiDiscService
 
+    // Snoopy: converts finished disc images to CHD when "Compress disc images to CHD" is on.
+    @Inject
+    lateinit var autoChdService: com.cortinadev.dogmatix.data.service.AutoChdService
+
     // dl-motor: checks every finished download against RomM / the console's DAT.
     @Inject
     lateinit var downloadVerifier: com.cortinadev.dogmatix.data.service.DownloadVerifier

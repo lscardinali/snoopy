@@ -415,6 +415,13 @@ class SettingsViewModel @Inject constructor(
     fun onPerHostDownloadsChanged(context: Context, max: Int) =
         executeWithToast(context, "SettingsViewModel") { repository.setPerHostDownloads(max) }
 
+    /** "Compress disc images to CHD" (AutoChdService). */
+    val compressToChd: StateFlow<Boolean> = repository.compressToChd
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    fun onCompressToChdChanged(context: Context, enabled: Boolean) =
+        executeWithToast(context, "SettingsViewModel") { repository.setCompressToChd(enabled) }
+
     fun onMultiDiscPlaylistsChanged(context: Context, enabled: Boolean) =
         executeWithToast(context, "SettingsViewModel") { repository.setMultiDiscPlaylists(enabled) }
 

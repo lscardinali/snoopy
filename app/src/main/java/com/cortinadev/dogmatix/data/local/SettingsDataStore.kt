@@ -77,6 +77,7 @@ object SettingsKeys {
     val PER_HOST_DOWNLOADS = intPreferencesKey("per_host_downloads")
     /** Gather a complete multi-disc game into `<game>.m3u/` with its playlist. */
     val MULTI_DISC_PLAYLISTS = booleanPreferencesKey("multi_disc_playlists")
+    val COMPRESS_TO_CHD = booleanPreferencesKey("compress_to_chd")
     /** A [com.cortinadev.dogmatix.data.model.PreferredRegion] name: which version of a game the library downloads. */
     val PREFERRED_REGION = stringPreferencesKey("preferred_region")
     /** One library entry per game across its translated titles (Retool clone lists). */
@@ -291,6 +292,9 @@ class SettingsDataStore @Inject constructor(
     val autoRetryAttempts: Flow<Int> = context.dataStore.data.map { it[SettingsKeys.AUTO_RETRY_ATTEMPTS] ?: AutoRetryPolicy.DEFAULT_ATTEMPTS }
     val perHostDownloads: Flow<Int> = context.dataStore.data.map { it[SettingsKeys.PER_HOST_DOWNLOADS] ?: 0 }
     val multiDiscPlaylists: Flow<Boolean> = context.dataStore.data.map { it[SettingsKeys.MULTI_DISC_PLAYLISTS] ?: true }
+
+    /** Finished downloads whose disc image converts to CHD are converted at once, originals deleted (off by default). */
+    val compressToChd: Flow<Boolean> = context.dataStore.data.map { it[SettingsKeys.COMPRESS_TO_CHD] ?: false }
     /** Defaults to the device's region until the user picks one (onboarding or Settings). */
     val preferredRegion: Flow<PreferredRegion> = context.dataStore.data.map {
         PreferredRegion.fromName(it[SettingsKeys.PREFERRED_REGION]) ?: PreferredRegion.forLocale()
@@ -298,6 +302,7 @@ class SettingsDataStore @Inject constructor(
     suspend fun setAutoRetryAttempts(attempts: Int) = context.dataStore.edit { it[SettingsKeys.AUTO_RETRY_ATTEMPTS] = attempts }
     suspend fun setPerHostDownloads(max: Int) = context.dataStore.edit { it[SettingsKeys.PER_HOST_DOWNLOADS] = max }
     suspend fun setMultiDiscPlaylists(enabled: Boolean) = context.dataStore.edit { it[SettingsKeys.MULTI_DISC_PLAYLISTS] = enabled }
+    suspend fun setCompressToChd(enabled: Boolean) = context.dataStore.edit { it[SettingsKeys.COMPRESS_TO_CHD] = enabled }
     suspend fun setPreferredRegion(region: PreferredRegion) = context.dataStore.edit { it[SettingsKeys.PREFERRED_REGION] = region.name }
     val unifyTitles: Flow<Boolean> = context.dataStore.data.map { it[SettingsKeys.UNIFY_TITLES] ?: true }
     suspend fun setUnifyTitles(enabled: Boolean) = context.dataStore.edit { it[SettingsKeys.UNIFY_TITLES] = enabled }

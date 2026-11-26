@@ -506,6 +506,8 @@
     <string name="settings_off">Aus</string>
     <string name="settings_per_host">Downloads pro Server</string>
     <string name="settings_per_host_hint">Gleichzeitige Web-Downloads vom selben Server; manche Server sperren Clients mit vielen Verbindungen</string>
+    <string name="settings_compress_chd">Disc-Images zu CHD komprimieren</string>
+    <string name="settings_compress_chd_hint">Fertige PlayStation-, PS2-, PSP-, Saturn-, Dreamcast-, Sega-CD- und PC-Engine-CD-Spiele (.cue/.bin, .gdi, .iso, heruntergeladen oder entpackt) werden im Hintergrund zu .chd und die Originale gelöscht</string>
     <string name="settings_multi_disc">Multi-Disc-Spiele (.m3u)</string>
     <string name="settings_multi_disc_hint">Sobald alle Discs da sind, kommen sie mit ihrer Playlist in einen Ordner „Spiel.m3u“: Das Frontend zeigt ein einziges Spiel und der Emulator wechselt die Discs</string>
     <string name="settings_region">Bevorzugte Region</string>
@@ -828,6 +830,7 @@
     <string name="search_kw_seeding">torrent, seeden, upload, hochladen, ratio, teilen, peers</string>
     <string name="search_kw_auto_retry">fehlgeschlagen, fehler, wiederholen, erneut versuchen, netzwerk</string>
     <string name="search_kw_auto_unzip">entpacken, extrahieren, zip, 7z, dekomprimieren, archiv</string>
+    <string name="search_kw_compress_chd">chd, komprimieren, kompression, konvertieren, iso, bin, cue, gdi, chdman, ps1, ps2, psp, playstation, speicherplatz, automatisch</string>
     <string name="search_kw_multi_disc">m3u, playlist, discs, cd, mehrere discs, multi-disc</string>
     <string name="search_kw_separate_console">ordner, unterordner, pro konsole, plattform</string>
     <string name="search_kw_debrid">torbox, real-debrid, api-schlüssel, token, premium</string>

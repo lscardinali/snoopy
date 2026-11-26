@@ -102,10 +102,12 @@ class SettingsRepositoryImpl @Inject constructor(
     override val autoRetryAttempts: Flow<Int> = settingsDataStore.autoRetryAttempts
     override val perHostDownloads: Flow<Int> = settingsDataStore.perHostDownloads
     override val multiDiscPlaylists: Flow<Boolean> = settingsDataStore.multiDiscPlaylists
+    override val compressToChd: Flow<Boolean> = settingsDataStore.compressToChd
     override val preferredRegion: Flow<PreferredRegion> = settingsDataStore.preferredRegion
     override suspend fun setAutoRetryAttempts(attempts: Int): Preferences = settingsDataStore.setAutoRetryAttempts(attempts)
     override suspend fun setPerHostDownloads(max: Int): Preferences = settingsDataStore.setPerHostDownloads(max)
     override suspend fun setMultiDiscPlaylists(enabled: Boolean): Preferences = settingsDataStore.setMultiDiscPlaylists(enabled)
+    override suspend fun setCompressToChd(enabled: Boolean): Preferences = settingsDataStore.setCompressToChd(enabled)
     override suspend fun setPreferredRegion(region: PreferredRegion): Preferences = settingsDataStore.setPreferredRegion(region)
     override val unifyTitles: Flow<Boolean> = settingsDataStore.unifyTitles
     override suspend fun setUnifyTitles(enabled: Boolean): Preferences = settingsDataStore.setUnifyTitles(enabled)

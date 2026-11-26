@@ -614,6 +614,17 @@ fun SettingsScreen(
             SettingsRow(key = SettingsRowKeys.VERIFY_DOWNLOADS) { VerifyDownloadsRow() },
             SettingsRow(key = SettingsRowKeys.DAT_FILES) { DatFilesRow() },
             // conversion: codecs of the CHD converter (Downloads → START, Collection → Free up space)
+            SettingsRow(key = SettingsRowKeys.COMPRESS_CHD) {
+                val compressToChd by viewModel.compressToChd.collectAsState()
+                SettingRow(
+                    title = stringResource(R.string.settings_compress_chd),
+                    hint = stringResource(R.string.settings_compress_chd_hint),
+                    onClick = { viewModel.onCompressToChdChanged(context, !compressToChd) },
+                    onAdjust = { viewModel.onCompressToChdChanged(context, it > 0) }
+                ) {
+                    ThemedSwitch(compressToChd) { viewModel.onCompressToChdChanged(context, it) }
+                }
+            },
             SettingsRow(key = SettingsRowKeys.CHD_COMPRESSION) {
                 SettingRow(
                     title = stringResource(R.string.settings_chd_compression),
