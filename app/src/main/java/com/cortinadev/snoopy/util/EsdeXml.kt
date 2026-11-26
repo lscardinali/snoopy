@@ -13,7 +13,7 @@ object EsdeXml {
     const val EMULATOR_NAME = "DOGMATIX"
 
     /** Label of the Dogmatix `<command>`; `<altemulator>` entries refer to it. */
-    const val COMMAND_LABEL = "Dogmatix"
+    const val COMMAND_LABEL = "Snoopy"
 
     const val SHORTCUT_DESC = "Browse and download games for this platform with Dogmatix."
 

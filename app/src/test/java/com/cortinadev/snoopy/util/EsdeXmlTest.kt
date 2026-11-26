@@ -55,9 +55,9 @@ class EsdeXmlTest {
         assertEquals(listOf("snes"), patch.configured)
         val block = EsdeXml.systemBlock(patch.content, "snes")!!
         assertTrue(block.contains("<extension>.dgmtx .DGMTX .sfc"))
-        assertTrue(block.contains("label=\"Dogmatix\""))
+        assertTrue(block.contains("label=\"Snoopy\""))
         // Dogmatix must not become the default emulator: its command goes last.
-        assertTrue(block.indexOf("label=\"Dogmatix\"") > block.lastIndexOf("label=\"bsnes\""))
+        assertTrue(block.indexOf("label=\"Snoopy\"") > block.lastIndexOf("label=\"bsnes\""))
         // The other bundled system is not dragged in.
         assertNull(EsdeXml.systemBlock(patch.content, "megadrive"))
     }
@@ -90,7 +90,7 @@ class EsdeXmlTest {
         val file = "star.dgmtx"
         val created = EsdeXml.gamelistWithShortcut(null, file, "★ Search for more games...")!!
         assertTrue(created.contains("<path>./star.dgmtx</path>"))
-        assertTrue(created.contains("<altemulator>Dogmatix</altemulator>"))
+        assertTrue(created.contains("<altemulator>Snoopy</altemulator>"))
 
         val existing = "<?xml version=\"1.0\"?>\n<gameList>\n\t<game>\n\t\t<path>./Mario.zip</path>\n\t</game>\n</gameList>\n"
         val merged = EsdeXml.gamelistWithShortcut(existing, file, "n")!!

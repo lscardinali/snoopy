@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Info -->
-    <string name="app_name">Dogmatix</string>
+    <string name="app_name">Snoopy</string>
     <string name="credits_title">Crediti</string>
     <string name="credits_fork_role">Sviluppatore software · Dogmatix (fork UI/UX)</string>
     <string name="credits_fork_name">Rafa Cortina</string>
@@ -131,20 +131,20 @@
     <string name="debrid_key_valid">%1$s: connesso come %2$s</string>
     <string name="debrid_key_invalid">%1$s: %2$s</string>
     <string name="settings_frontend_shortcuts">Collegamenti per frontend</string>
-    <string name="settings_frontend_shortcuts_hint">Mette un collegamento a Dogmatix (.dgmtx) in ogni cartella di piattaforma, per ES-DE e frontend simili</string>
+    <string name="settings_frontend_shortcuts_hint">Mette un collegamento a Snoopy (.dgmtx) in ogni cartella di piattaforma, per ES-DE e frontend simili</string>
     <string name="settings_frontend_shortcuts_action">Crea</string>
     <string name="frontend_shortcuts_done">%1$d collegamenti creati</string>
     <string name="frontend_shortcuts_partial">%1$d collegamenti creati, %2$d non riusciti</string>
     <string name="frontend_shortcuts_none">Nessuna cartella di download impostata</string>
-    <string name="dgmtx_invalid">Non è un file di collegamento di Dogmatix</string>
+    <string name="dgmtx_invalid">Non è un file di collegamento di Snoopy</string>
     <string name="settings_esde">Configura ES-DE</string>
-    <string name="settings_esde_hint">Scegli la cartella di ES-DE e Dogmatix si aggiunge a ogni piattaforma (chiudi prima ES-DE)</string>
+    <string name="settings_esde_hint">Scegli la cartella di ES-DE e Snoopy si aggiunge a ogni piattaforma (chiudi prima ES-DE)</string>
     <string name="settings_esde_action">Configura</string>
     <string name="esde_configured">ES-DE: %1$d sistemi pronti, %2$d collegamenti — riavvia ES-DE</string>
     <string name="esde_folders_skipped">%1$d cartelle senza un sistema ES-DE corrispondente</string>
     <string name="esde_not_installed">ES-DE non è installato su questo dispositivo</string>
     <string name="settings_iisu">Configura iiSU</string>
-    <string name="settings_iisu_hint">Scegli la cartella iiSULauncher di iiSU e Dogmatix si aggiunge come emulatore (poi riavvia iiSU)</string>
+    <string name="settings_iisu_hint">Scegli la cartella iiSULauncher di iiSU e Snoopy si aggiunge come emulatore (poi riavvia iiSU)</string>
     <string name="settings_iisu_action">Configura</string>
     <string name="iisu_configured">iiSU: %1$d console pronte, %2$d collegamenti — riavvia iiSU</string>
     <string name="iisu_folders_skipped">%1$d cartelle senza una console iiSU corrispondente</string>
@@ -158,7 +158,7 @@
     <string name="settings_daijisho">Configura Daijishō</string>
     <string name="settings_daijisho_hint">Daijishō non permette di importare la configurazione degli emulatori: ecco i valori da aggiungere a mano</string>
     <string name="settings_daijisho_action">Mostra</string>
-    <string name="daijisho_dialog_title">Aggiungi Dogmatix a Daijishō</string>
+    <string name="daijisho_dialog_title">Aggiungi Snoopy a Daijishō</string>
     <string name="daijisho_dialog_body">I %1$d collegamenti sono già al loro posto. Daijishō tiene i suoi emulatori in un database privato, quindi la voce va aggiunta a mano: apri Impostazioni › Libreria › Aggiungi un emulatore e compilalo con questi valori (lascia spento l’interruttore per terminare i processi), poi sincronizza.</string>
     <string name="daijisho_field_name">Nome dell’emulatore</string>
     <string name="daijisho_field_arguments">Argomenti am start dell’emulatore</string>
@@ -166,7 +166,7 @@
     <string name="dialog_copy">Copia</string>
     <string name="dialog_close">Chiudi</string>
     <string name="onboarding_esde_title">Collegati a ES-DE</string>
-    <string name="onboarding_esde_body">ES-DE è installato su questo dispositivo. Scegli la sua cartella dati (quella con gamelists e downloaded_media, di solito ES-DE) e Dogmatix comparirà in ogni piattaforma come «★ Search for more games…». Chiudi prima ES-DE — puoi farlo anche più tardi dalle Impostazioni.</string>
+    <string name="onboarding_esde_body">ES-DE è installato su questo dispositivo. Scegli la sua cartella dati (quella con gamelists e downloaded_media, di solito ES-DE) e Snoopy comparirà in ogni piattaforma come «★ Search for more games…». Chiudi prima ES-DE — puoi farlo anche più tardi dalle Impostazioni.</string>
     <string name="onboarding_esde_choose">Scegli la cartella di ES-DE</string>
     <string name="onboarding_esde_configuring">Configurazione di ES-DE…</string>
     <string name="nav_romm">RomM</string>
@@ -269,8 +269,8 @@
     <string name="language_it">Italiano</string>
 
     <!-- Top Bar -->
-    <string name="topbar_title">Dogmatix</string>
-    <string name="topbar_logo_desc">Dogmatix</string>
+    <string name="topbar_title">Snoopy</string>
+    <string name="topbar_logo_desc">Snoopy</string>
 
     <!-- Search & Filter -->
     <string name="search_library">Cerca nella libreria</string>
@@ -438,8 +438,8 @@
 
     <!-- HTTP -->
     <!-- Onboarding -->
-    <string name="onboarding_welcome_title">Benvenuto in Dogmatix</string>
-    <string name="onboarding_welcome_body">Dogmatix indicizza il contenuto delle fonti di ROM — torrent, magnet e directory web —, etichetta ogni file per console, regione e lingua e ti permette di sfogliare, filtrare e scaricare direttamente nella tua cartella delle ROM. Gli archivi vengono estratti automaticamente.</string>
+    <string name="onboarding_welcome_title">Benvenuto in Snoopy</string>
+    <string name="onboarding_welcome_body">Snoopy indicizza il contenuto delle fonti di ROM — torrent, magnet e directory web —, etichetta ogni file per console, regione e lingua e ti permette di sfogliare, filtrare e scaricare direttamente nella tua cartella delle ROM. Gli archivi vengono estratti automaticamente.</string>
     <string name="onboarding_welcome_point_1">Le fonti vengono indicizzate, non scaricate: sfoglia migliaia di titoli senza riempire la memoria.</string>
     <string name="onboarding_welcome_point_2">Filtra per console, regione, lingua, etichetta e fonte; ✓ indica ciò che hai già.</string>
     <string name="onboarding_welcome_point_3">I download finiscono in una cartella per console, pronti per frontend come ES-DE.</string>
@@ -449,7 +449,7 @@
     <string name="onboarding_folder_choose">Scegli cartella</string>
     <string name="onboarding_folder_change">Cambia cartella</string>
     <string name="onboarding_sources_title">Aggiungi le tue fonti</string>
-    <string name="onboarding_sources_body">Dogmatix non include fonti. Importa un JSON di fonti (per esempio quello condiviso da un altro dispositivo) e tutte le sue console verranno indicizzate subito. Puoi anche aggiungere console e URL a mano più tardi, nella scheda Fonti.</string>
+    <string name="onboarding_sources_body">Snoopy non include fonti. Importa un JSON di fonti (per esempio quello condiviso da un altro dispositivo) e tutte le sue console verranno indicizzate subito. Puoi anche aggiungere console e URL a mano più tardi, nella scheda Fonti.</string>
     <string name="onboarding_sources_import">Importa JSON</string>
     <string name="onboarding_skip">Salta per ora</string>
     <string name="onboarding_continue">Continua</string>
@@ -781,7 +781,7 @@
     <string name="romm_cert_row_hint">%1$s · SHA-256 %2$s</string>
     <string name="romm_cert_forget">Dimentica</string>
     <string name="romm_cert_forget_title">Dimenticare il certificato?</string>
-    <string name="romm_cert_forget_message">Dogmatix rifiuterà %1$s finché non accetterai di nuovo il suo certificato (Prova connessione).</string>
+    <string name="romm_cert_forget_message">Snoopy rifiuterà %1$s finché non accetterai di nuovo il suo certificato (Prova connessione).</string>
     <string name="romm_cert_forgotten">Certificato dimenticato</string>
 
     <!-- frontends -->
@@ -806,11 +806,11 @@
     <string name="fc_esde_folder_not_set">Non ancora configurato: scegli la sua cartella dati</string>
     <string name="fc_esde_folder_no_access">Nessun accesso alla sua cartella dati: sceglila di nuovo</string>
     <string name="fc_esde_not_installed">ES-DE non è installato: la configurazione non si può ripetere</string>
-    <string name="fc_esde_find_rule_ok">Dogmatix è registrato come emulatore</string>
-    <string name="fc_esde_find_rule_missing">Dogmatix non è registrato come emulatore (es_find_rules.xml)</string>
-    <string name="fc_esde_find_rule_other">Registrato per un’altra build di Dogmatix (%1$s), non per questa</string>
-    <string name="fc_esde_systems_ok">Sistemi che aprono il collegamento con Dogmatix: %1$d</string>
-    <string name="fc_esde_systems_missing">Senza .dgmtx o senza il comando Dogmatix (%1$d di %2$d): %3$s</string>
+    <string name="fc_esde_find_rule_ok">Snoopy è registrato come emulatore</string>
+    <string name="fc_esde_find_rule_missing">Snoopy non è registrato come emulatore (es_find_rules.xml)</string>
+    <string name="fc_esde_find_rule_other">Registrato per un’altra build di Snoopy (%1$s), non per questa</string>
+    <string name="fc_esde_systems_ok">Sistemi che aprono il collegamento con Snoopy: %1$d</string>
+    <string name="fc_esde_systems_missing">Senza .dgmtx o senza il comando Snoopy (%1$d di %2$d): %3$s</string>
     <string name="fc_esde_no_systems">Nessuna cartella di console corrisponde a un sistema ES-DE</string>
     <string name="fc_esde_gamelists_ok">Gamelist che elencano il collegamento: %1$d</string>
     <string name="fc_esde_gamelists_missing">Gamelist senza la voce del collegamento (%1$d di %2$d): %3$s</string>
@@ -824,8 +824,8 @@
     <string name="fc_iisu_file_missing">emuladores.json non trovato</string>
     <string name="fc_iisu_file_corrupt">emuladores.json non è leggibile o sembra danneggiato: non vi si può aggiungere nulla</string>
     <string name="fc_iisu_no_consoles">Nessuna cartella di console corrisponde a una console iiSU</string>
-    <string name="fc_iisu_emulators_ok">Console con l’emulatore Dogmatix: %1$d</string>
-    <string name="fc_iisu_emulators_missing">Console senza l’emulatore Dogmatix (%1$d di %2$d): %3$s</string>
+    <string name="fc_iisu_emulators_ok">Console con l’emulatore Snoopy: %1$d</string>
+    <string name="fc_iisu_emulators_missing">Console senza l’emulatore Snoopy (%1$d di %2$d): %3$s</string>
     <string name="fc_shortcuts_ok">Cartelle di console con il loro collegamento: %1$d</string>
     <string name="fc_shortcuts_missing">Console senza collegamento (%1$d di %2$d): %3$s</string>
     <string name="fc_shortcuts_no_folder">Nessuna cartella di download impostata</string>
@@ -1454,7 +1454,7 @@
     <string name="settings_updates_hint_checking">Ricerca di una nuova versione…</string>
     <string name="settings_updates_hint_up_to_date">Versione %1$s · aggiornata</string>
     <string name="settings_updates_hint_available">Versione %1$s disponibile (hai la %2$s)</string>
-    <string name="settings_updates_hint_downloading">Download di Dogmatix %1$s · %2$s</string>
+    <string name="settings_updates_hint_downloading">Download di Snoopy %1$s · %2$s</string>
     <string name="settings_updates_hint_ready">Versione %1$s pronta da installare</string>
     <string name="settings_updates_hint_failed">Versione %1$s · GitHub non raggiungibile</string>
     <string name="settings_updates_check">Controlla</string>
@@ -1471,14 +1471,14 @@
     <string name="update_downloading_progress">%1$s di %2$s</string>
     <string name="update_hide">Nascondi</string>
     <string name="update_ready_title">La versione %1$s è pronta</string>
-    <string name="update_ready_text">Android ti chiederà di confermare l’installazione. La prima volta ti chiederà anche di consentire le installazioni da Dogmatix: attivale e torna indietro. Libreria, download e impostazioni restano come sono.</string>
+    <string name="update_ready_text">Android ti chiederà di confermare l’installazione. La prima volta ti chiederà anche di consentire le installazioni da Snoopy: attivale e torna indietro. Libreria, download e impostazioni restano come sono.</string>
     <string name="update_install">Installa</string>
     <string name="update_failed_title">Aggiornamento non riuscito</string>
     <string name="update_retry">Riprova</string>
     <string name="update_open_page">Apri su GitHub</string>
     <string name="update_no_installer">Nessuna app su questo dispositivo può installare l’aggiornamento</string>
     <string name="update_error_network">Impossibile raggiungere GitHub. Controlla la connessione e riprova.</string>
-    <string name="update_error_bad_apk">Il file scaricato non è un APK valido di Dogmatix. Riprova più tardi.</string>
+    <string name="update_error_bad_apk">Il file scaricato non è un APK valido di Snoopy. Riprova più tardi.</string>
     <string name="update_error_signature">Questo aggiornamento è firmato con una chiave diversa da quella dell’app installata, quindi Android non lo installerà sopra. Consulta la pagina della versione su GitHub.</string>
     <string name="update_error_storage">Spazio libero insufficiente per scaricare l’aggiornamento.</string>
     <string name="update_error_older">L’APK scaricato non è più recente della versione installata, quindi non può aggiornarla. Consulta la pagina della versione su GitHub.</string>
